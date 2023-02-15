@@ -2,9 +2,9 @@
 ansible_connection=ssh
 ansible_user=pi
 
-[server]
-pi0
+[control]
+pi0 var_disk=sda var_uuid=63f39fc0-17ce-40c2-bd84-27013c541116
 
 [workers]
-pi1
-pi2
+pi1 var_disk=sda var_uuid=cad57e92-2198-426b-b7b3-0afa5c624947
+pi2 var_disk=sda var_uuid=97d757e6-7743-452e-b785-3a1acde2ea34

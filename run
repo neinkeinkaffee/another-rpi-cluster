@@ -13,24 +13,30 @@ get_kubeconfig() {
 }
 
 help() {
-  echo "usage $0 get_kubeconfig | kubectl <options> | terraform <options> "
+  echo "usage $0 get_kubeconfig | kubectl <options> | terraform <options> | ansible <options>"
   exit 1
 }
 
 _terraform() {
   cd terraform
-  terraform $@
+  terraform "$@"
   cd -
 }
+
 _kubectl() {
-  kubectl $@
+  kubectl "$@"
+}
+
+_ansible() {
+  ansible -i hosts "$@"
 }
 
 CMD=${1:-}
 shift || true
 case ${CMD} in
 get_kubeconfig) get_kubeconfig ;;
-terraform) _terraform $@ ;;
-kubectl) _kubectl $@ ;;
+terraform) _terraform "$@" ;;
+kubectl) _kubectl "$@" ;;
+ansible) _ansible "$@" ;;
 *) help ;;
 esac
