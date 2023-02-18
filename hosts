@@ -3,8 +3,8 @@ ansible_connection=ssh
 ansible_user=pi
 
 [control]
-pi0 var_disk=sda var_uuid=63f39fc0-17ce-40c2-bd84-27013c541116
+pi0 var_disk=sda var_uuid=105ae92c-2a5c-407d-a09f-1e2c73154bfd
 
 [workers]
-pi1 var_disk=sda var_uuid=cad57e92-2198-426b-b7b3-0afa5c624947
-pi2 var_disk=sda var_uuid=97d757e6-7743-452e-b785-3a1acde2ea34
+pi1 var_disk=sda var_uuid=e8c91d8d-feb4-4382-95ce-0678558b899d
+pi2 var_disk=sda var_uuid=62064fab-09af-4145-9c63-64097e5bcd42

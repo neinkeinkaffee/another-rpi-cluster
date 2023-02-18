@@ -15,3 +15,31 @@ resource "kubernetes_namespace" "longhorn" {
     name = "longhorn"
   }
 }
+
+resource "kubernetes_ingress_v1" "longhorn" {
+  metadata {
+    name = "longhorn"
+    namespace = "longhorn"
+    annotations = {
+      ingress_class_name = "traefik"
+    }
+  }
+  spec {
+    rule {
+      host = "longhorn.otherthings.net"
+      http {
+        path {
+          path = "/"
+          backend {
+            service {
+              name = "longhorn-frontend"
+              port {
+                number = 80
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
