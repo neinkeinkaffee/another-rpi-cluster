@@ -15,11 +15,26 @@ export SERVER_IP=192.168.1.217
 ./run ansible workers -b -m shell -a "K3S_URL=https://${SERVER_IP}:6443 K3S_TOKEN=$(ssh pi@pi0 sudo cat /var/lib/rancher/k3s/server/node-token) curl -sfL https://get.k3s.io | sh -"
 ```
 
-## Reformat and mount USB flash drives
+## Install Longhorn volume provisioner
 
+Reformat and mount USB flash drives
 ```
+./run ansible all -b -m shell -a "lsblk -f"
 ./run ansible all -b -m shell -a "umount /dev/{{ var_disk }}; wipefs -a /dev/{{ var_disk }}"
 ./run ansible all -b -m filesystem -a "fstype=ext4 dev=/dev/{{ var_disk }}" 
 ./run ansible all -b -m shell -a "blkid -s UUID -o value /dev/{{ var_disk }}"
 ./run ansible all -m ansible.posix.mount -a "path=/usb src=UUID={{ var_uuid }} fstype=ext4 state=mounted" -b
+```
+
+Install prerequisite Linux packages
+```
+./run ansible all -b -m apt -a "name=nfs-common state=present"
+./run ansible all -b -m apt -a "name=open-iscsi state=present"
+./run ansible all -b -m apt -a "name=util-linux state=present"
+```
+
+Install Longhorn
+```
+./run terraform init
+./run terraform apply
 ```

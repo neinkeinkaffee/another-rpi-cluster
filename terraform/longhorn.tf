@@ -6,7 +6,7 @@ resource "helm_release" "longhorn" {
 
   set {
     name = "defaultSettings.defaultDataPath"
-    value = "/usb"
+    value = "/vol"
   }
 }
 
