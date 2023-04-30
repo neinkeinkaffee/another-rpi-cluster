@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-CONTROLLER=192.168.4.20
+CONTROLLER=192.168.1.217
 SSH_KEY=${HOME}/.ssh/id_rsa_personal
 KUBECONFIG=${HOME}/pikubeconfig
 KUBE_CONFIG_PATH=${HOME}/pikubeconfig
