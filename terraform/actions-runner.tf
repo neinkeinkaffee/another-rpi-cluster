@@ -31,6 +31,68 @@ resource "helm_release" "actions-runner" {
   }
 }
 
+resource "kubernetes_service_account" "actions_runner" {
+  metadata {
+    name = "actions-runner"
+#    namespace = "actions-runner-system"
+  }
+}
+
+resource "kubernetes_role" "actions_runner" {
+  metadata {
+    name = "actions-runner"
+  }
+
+  rule {
+    api_groups     = [""]
+    resources      = ["pods"]
+    verbs          = ["get", "list", "create", "delete"]
+  }
+
+  rule {
+    api_groups = [""]
+    resources  = ["pods/exec"]
+    verbs      = ["get", "create"]
+  }
+
+  rule {
+    api_groups = [""]
+    resources  = ["pods/log"]
+    verbs      = ["get", "list", "watch"]
+  }
+
+  rule {
+    api_groups = ["batch"]
+    resources  = ["jobs"]
+    verbs      = ["get", "list", "create", "delete"]
+  }
+
+  rule {
+    api_groups = [""]
+    resources  = ["secrets"]
+    verbs      = ["get", "list", "create", "delete"]
+  }
+}
+
+resource "kubernetes_role_binding" "actions_runner" {
+  metadata {
+    name = "actions-runner"
+#    namespace = "actions-runner-system"
+  }
+
+  subject {
+    kind = "ServiceAccount"
+    name = "actions-runner"
+    api_group = ""
+  }
+
+  role_ref {
+    name      = "actions-runner"
+    kind      = "Role"
+    api_group = "rbac.authorization.k8s.io"
+  }
+}
+
 resource "kubernetes_manifest" "net_prog_runner" {
   manifest = {
     "apiVersion" = "actions.summerwind.dev/v1alpha1"
@@ -43,6 +105,8 @@ resource "kubernetes_manifest" "net_prog_runner" {
       "replicas" = 1
       "template" = {
         "spec" = {
+          "automountServiceAccountToken" = true
+          "serviceAccountName" = "actions-runner"
           "repository" = "neinkeinkaffee/net-prog"
         }
       }
