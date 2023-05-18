@@ -50,6 +50,24 @@ resource "kubernetes_role" "actions_runner" {
   }
 
   rule {
+    api_groups     = ["apps"]
+    resources      = ["deployments"]
+    verbs          = ["get", "list", "create", "delete"]
+  }
+
+  rule {
+    api_groups     = [""]
+    resources      = ["services"]
+    verbs          = ["get", "list", "create", "delete"]
+  }
+
+  rule {
+    api_groups     = ["networking.k8s.io"]
+    resources      = ["ingresses"]
+    verbs          = ["get", "list", "create", "delete"]
+  }
+
+  rule {
     api_groups = [""]
     resources  = ["pods/exec"]
     verbs      = ["get", "create"]
