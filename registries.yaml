@@ -1,4 +1,0 @@
-mirrors:
-  docker-registry:
-    endpoint:
-      - "http://registry.otherthings.local"

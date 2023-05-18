@@ -1,8 +1,3 @@
-locals {
-  docker_registry_host = "${kubernetes_service_v1.registry.metadata[0].name}.${kubernetes_service_v1.registry.metadata[0].namespace}.svc.cluster.local"
-  docker_registry_port = kubernetes_service_v1.registry.spec[0].port[0].port
-}
-
 data "local_file" "github_app_private_key_file" {
   filename = var.github_app_private_key_file
 }
@@ -113,10 +108,6 @@ resource "kubernetes_manifest" "net_prog_runner" {
           "automountServiceAccountToken" = true
           "serviceAccountName" = "actions-runner"
           "repository" = "neinkeinkaffee/net-prog"
-          "env" = [{
-            "name" = "DOCKER_REGISTRY"
-            "value" = "${local.docker_registry_host}:${local.docker_registry_port}"
-          }]
         }
       }
     }

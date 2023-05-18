@@ -33,19 +33,8 @@ Install prerequisite Linux packages
 ./run ansible all -b -m apt -a "name=util-linux state=present"
 ```
 
-Add DNS entries for local Docker registry
-```
-./run ansible all -b -m shell -a "echo '192.168.1.217 registry registry.otherthings.local' >> /etc/hosts"
-```
-
 Install core services
 ```
 ./run terraform init
 ./run terraform apply
-```
-
-Configure Docker registry in k3s
-```
-./run ansible all -b -m file -a "path=/etc/rancher/k3s state=directory"
-./run ansible all -b -m copy -a "src=registries.yaml dest=/etc/rancher/k3s/registries.yaml"
 ```
