@@ -26,7 +26,7 @@ resource "kubernetes_ingress_v1" "longhorn" {
   }
   spec {
     rule {
-      host = "longhorn.otherthings.net"
+      host = "longhorn.otherthings.local"
       http {
         path {
           path = "/"
